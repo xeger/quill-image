@@ -1,0 +1,13 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.enable": true,
+  "eslint.options": {
+    "rules": {
+      "no-console": "off",
+      "no-debugger": "off"
+    }
+  },
+  "eslint.packageManager": "npm",
+}
