@@ -1,5 +1,8 @@
 import Quill from 'quill';
-const Parchment = Quill.import('parchment');
+import IParchment from 'parchment';
+
+// make sure we get the "real" parchment registry, not a copy
+const Parchment: typeof IParchment = Quill.import('parchment');
 
 export const Float = new Parchment.Attributor.Style('float', 'float', {
   scope: Parchment.Scope.INLINE_BLOT,
