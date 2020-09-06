@@ -54,7 +54,7 @@
   "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xeger/quill-image-actions.git"
+    "url": "git+https://github.com/xeger/quill-image.git"
   },
   "keywords": [
     "quilljs",
@@ -64,7 +64,7 @@
   ],
   "author": "Tony Spataro",
   "bugs": {
-    "url": "https://github.com/xeger/quill-image-actions/issues"
+    "url": "https://github.com/xeger/quill-image/issues"
   },
-  "homepage": "https://github.com/xeger/quill-image-actions#readme"
+  "homepage": "https://github.com/xeger/quill-image#readme"
 }
