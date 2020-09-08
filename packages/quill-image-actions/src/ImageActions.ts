@@ -1,10 +1,9 @@
 import deepmerge from 'deepmerge';
-import QuillAPI, { Quill } from 'quill';
+import { Quill } from 'quill';
 
 import { Options } from './Options';
 import DefaultOptions from './Options';
 import Action from './actions/Action';
-import * as formats from './formats';
 import BlotSpec from './specs/BlotSpec';
 
 const dontMerge = (destination: any[], source: any[]) => source;
@@ -18,13 +17,6 @@ export default class ImageActions {
   specs: BlotSpec[];
   overlay: HTMLElement;
   actions: Action[];
-
-  static register(): void {
-    QuillAPI.register('formats/float', formats.Float);
-    QuillAPI.register('formats/height', formats.Height);
-    // QuillAPI.register('formats/image', formats.ImageWithFormats);
-    QuillAPI.register('formats/width', formats.Width);
-  }
 
   constructor(quill: Quill, options: Options = {}) {
     this.quill = quill;
@@ -41,14 +33,11 @@ export default class ImageActions {
 
     // disable native image resizing on firefox
     document.execCommand('enableObjectResizing', false, 'false'); // eslint-disable-line no-undef
-    this.quill.root.parentNode.style.position =
-      this.quill.root.parentNode.style.position || 'relative';
+    const {root: {parentNode: {style}}} = this.quill;
+    style.position = style.position || 'relative';
 
     this.quill.root.addEventListener('click', this.onClick);
-    this.specs = this.options.specs.map(
-      // TODO: better typing for SpecClass; in flow, it was: Class<SpecClass>
-      (SpecClass: any) => new SpecClass(this)
-    );
+    this.specs = this.options.specs.map(Class => new Class(this));
     this.specs.forEach((spec) => spec.init());
   }
 
@@ -79,10 +68,11 @@ export default class ImageActions {
     this.actions.forEach((action) => action.onUpdate());
   }
 
-  // TODO: better return typing
-  createActions(spec: BlotSpec): any {
-    // TODO: better typing for ActionClass; in flow, it was: Class<Action>
-    this.actions = spec.getActions().map((ActionClass: any) => {
+  createActions(spec: BlotSpec): void {
+    const actions = spec.getActions().filter((ActionClass:any) =>
+      !ActionClass.formats.length || ActionClass.formats.some(f => this.quill.options.formats.includes(f))
+    );
+    this.actions = actions.map((ActionClass:any) => {
       const action: Action = new ActionClass(this);
       action.onCreate();
       return action;

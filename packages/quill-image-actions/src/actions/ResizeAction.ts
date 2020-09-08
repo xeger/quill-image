@@ -7,6 +7,8 @@ interface HandleStyle {
 }
 
 export default class ResizeAction extends Action {
+  static formats = ['height', 'width'];
+
   topLeftHandle: HTMLElement;
   topRightHandle: HTMLElement;
   bottomRightHandle: HTMLElement;

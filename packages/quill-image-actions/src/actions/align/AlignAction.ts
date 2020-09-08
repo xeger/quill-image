@@ -6,6 +6,8 @@ import { Toolbar } from './Toolbar';
 import DefaultToolbar from './DefaultToolbar';
 
 export default class AlignAction extends Action {
+  static formats = ['float'];
+
   toolbar: Toolbar;
   aligner: Aligner;
 

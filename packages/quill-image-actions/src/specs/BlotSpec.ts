@@ -25,8 +25,7 @@ export default class BlotSpec {
   }
 
   getActions(): ExtendsAction[] {
-    return [ResizeAction, DeleteAction];
-    // return [AlignAction, ResizeAction, DeleteAction];
+    return [AlignAction, ResizeAction, DeleteAction];
   }
 
   getTargetElement(): HTMLElement | null | undefined {
