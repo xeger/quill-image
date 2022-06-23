@@ -5,5 +5,16 @@
     "packages": [
       "packages/*"
     ]
+  },
+  "devDependencies": {
+    "prettier": "*",
+    "cypress": "^10.2.0",
+    "eslint": "*",
+    "eslint-config-prettier": "*",
+    "eslint-plugin-prettier": "*",
+    "serve-handler": "^6.1.3"
+  },
+  "scripts": {
+    "cy:open": "cypress open"
   }
 }

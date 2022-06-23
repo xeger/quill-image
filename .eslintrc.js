@@ -9,17 +9,16 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   env: {
-    es6: true
+    es6: true,
   },
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'prettier/@typescript-eslint',
     // NB: please leave this at the end so it can override all other rules!
     'plugin:prettier/recommended',
   ],
   parserOptions: {
-    ecmaVersion: 2018,   // aka ECMAScript 9
+    ecmaVersion: 2018, // aka ECMAScript 9
     sourceType: 'module', // allow `import` statement
   },
   rules: {
@@ -33,6 +32,6 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     'no-empty': 'warn',
     'no-extra-boolean-cast': 'warn',
-    'prettier/prettier': ['error', {singleQuote: true, trailingComma: 'es5'}],
+    'prettier/prettier': ['error', { singleQuote: true, trailingComma: 'es5' }],
   },
 };

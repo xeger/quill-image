@@ -1,12 +1,22 @@
 {
+  "[javascript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.formatOnSave": true,
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.formatOnSave": true,
+  },
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
   "eslint.enable": true,
   "eslint.options": {
-    "rules": {
-      "no-console": "off",
-      "no-debugger": "off"
+    "overrideConfig": {
+      "rules": {
+        "no-console": "off",
+        "no-debugger": "off"
+      }
     }
   },
   "eslint.packageManager": "npm",
