@@ -1,5 +1,5 @@
 import deepmerge from 'deepmerge';
-import { Quill } from 'quill';
+import type { Quill } from 'quill';
 
 import { Options } from './Options';
 import DefaultOptions from './Options';
@@ -33,11 +33,15 @@ export default class ImageActions {
 
     // disable native image resizing on firefox
     document.execCommand('enableObjectResizing', false, 'false'); // eslint-disable-line no-undef
-    const {root: {parentNode: {style}}} = this.quill;
+    const {
+      root: {
+        parentNode: { style },
+      },
+    } = this.quill;
     style.position = style.position || 'relative';
 
     this.quill.root.addEventListener('click', this.onClick);
-    this.specs = this.options.specs.map(Class => new Class(this));
+    this.specs = this.options.specs.map((Class) => new Class(this));
     this.specs.forEach((spec) => spec.init());
   }
 
@@ -69,10 +73,16 @@ export default class ImageActions {
   }
 
   createActions(spec: BlotSpec): void {
-    const actions = spec.getActions().filter((ActionClass:any) =>
-      !ActionClass.formats.length || ActionClass.formats.some(f => this.quill.options.formats.includes(f))
-    );
-    this.actions = actions.map((ActionClass:any) => {
+    const actions = spec
+      .getActions()
+      .filter(
+        (ActionClass: any) =>
+          !ActionClass.formats.length ||
+          ActionClass.formats.some((f) =>
+            this.quill.options.formats.includes(f)
+          )
+      );
+    this.actions = actions.map((ActionClass: any) => {
       const action: Action = new ActionClass(this);
       action.onCreate();
       return action;

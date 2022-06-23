@@ -1,4 +1,5 @@
-import Parchment from 'parchment';
+import type { Quill as IQuill } from 'quill';
+import type Parchment from 'parchment';
 
 type EmbedBlot = typeof Parchment.Embed;
 
@@ -18,7 +19,9 @@ function isStyled(node: any): node is HTMLElement {
  * To avoid import-ordering issues, this is a class factory
  * instead of a statically defined class.
  */
-export function imageWithFormats(Image: EmbedBlot): EmbedBlot {
+export function imageWithFormats(Quill: typeof IQuill): EmbedBlot {
+  const Image: EmbedBlot = Quill.import('formats/image');
+
   const STYLES = ['float'];
   const STYLE_VALUES: Record<string, string[]> = {
     float: ['left', 'right'],

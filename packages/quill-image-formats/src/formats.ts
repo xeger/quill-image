@@ -1,18 +1,23 @@
-import Quill from 'quill';
-import IParchment from 'parchment';
+import type { Quill as IQuill } from 'quill';
+import type Parchment from 'parchment';
 
-// make sure we get the "real" parchment registry, not a copy
-const Parchment: typeof IParchment = Quill.import('parchment');
+// Must rely on return type inference due to bizarre Parchment typings (right?)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function createFormats(Quill: typeof IQuill) {
+  const parchment: typeof Parchment = Quill.import('parchment');
 
-export const Float = new Parchment.Attributor.Style('float', 'float', {
-  scope: Parchment.Scope.INLINE_BLOT,
-  whitelist: ['left', 'right'],
-});
+  const Float = new parchment.Attributor.Style('float', 'float', {
+    scope: parchment.Scope.INLINE_BLOT,
+    whitelist: ['left', 'right'],
+  });
 
-export const Height = new Parchment.Attributor.Attribute('height', 'height', {
-  scope: Parchment.Scope.INLINE_BLOT,
-});
+  const Height = new parchment.Attributor.Attribute('height', 'height', {
+    scope: parchment.Scope.INLINE_BLOT,
+  });
 
-export const Width = new Parchment.Attributor.Attribute('width', 'width', {
-  scope: Parchment.Scope.INLINE_BLOT,
-});
+  const Width = new parchment.Attributor.Attribute('width', 'width', {
+    scope: parchment.Scope.INLINE_BLOT,
+  });
+
+  return { Float, Height, Width };
+}
