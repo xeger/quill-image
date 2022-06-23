@@ -2,6 +2,7 @@
   "name": "@xeger/quill-image-formats",
   "version": "0.4.0",
   "license": "MIT",
+  "packageManager": "npm@8.5.0",
   "private": false,
   "scripts": {
     "type-check": "tsc --noEmit",
