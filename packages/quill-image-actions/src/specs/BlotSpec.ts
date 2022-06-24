@@ -37,7 +37,7 @@ export default class BlotSpec {
   }
 
   setSelection(): void {
-    this.formatter.quill.setSelection(null);
+    this.formatter.quill.setSelection(0, 0);
   }
 
   onHide(): void {

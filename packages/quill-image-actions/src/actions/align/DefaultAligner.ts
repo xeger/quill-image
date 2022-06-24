@@ -71,6 +71,8 @@ export default class DefaultAligner implements Aligner {
       blot,
       index,
       precedesNewline:
+        next &&
+        next.ops &&
         typeof next.ops[0]?.insert === 'string' &&
         next.ops[0].insert.startsWith('\n'),
     };
@@ -92,6 +94,7 @@ export default class DefaultAligner implements Aligner {
     const ctx = this.getContext(el);
     if (!ctx) return false;
     const contents = this.quill.getContents(ctx.index);
+    if (!contents.ops) return false;
     const [
       {
         insert: { attributes, image },

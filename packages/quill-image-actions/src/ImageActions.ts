@@ -32,24 +32,27 @@ export default class ImageActions {
     }
 
     // disable native image resizing on firefox
-    document.execCommand('enableObjectResizing', false, 'false'); // eslint-disable-line no-undef
-    const {
-      root: {
-        parentNode: { style },
-      },
-    } = this.quill;
-    style.position = style.position || 'relative';
+    document.execCommand('enableObjectResizing', false, 'false');
+    this.withParentNode((pn) => {
+      pn.style.position = pn.style.position || 'relative';
+    });
 
     this.quill.root.addEventListener('click', this.onClick);
     this.specs = this.options.specs.map((Class) => new Class(this));
     this.specs.forEach((spec) => spec.init());
   }
 
+  withParentNode(callback: (HTMLElement) => any): void {
+    if (this.quill.root.parentNode) {
+      callback(this.quill.root.parentNode);
+    }
+  }
+
   show(spec: BlotSpec): void {
     this.currentSpec = spec;
     this.currentSpec.setSelection();
     this.setUserSelect('none');
-    this.quill.root.parentNode.appendChild(this.overlay);
+    this.withParentNode((pn) => pn.appendChild(this.overlay));
     this.repositionOverlay();
     this.createActions(spec);
   }
@@ -61,7 +64,7 @@ export default class ImageActions {
 
     this.currentSpec.onHide();
     this.currentSpec = null;
-    this.quill.root.parentNode.removeChild(this.overlay);
+    this.withParentNode((pn) => pn?.removeChild(this.overlay));
     this.overlay.style.setProperty('display', 'none');
     this.setUserSelect('');
     this.destroyActions();
@@ -73,15 +76,14 @@ export default class ImageActions {
   }
 
   createActions(spec: BlotSpec): void {
-    const actions = spec
-      .getActions()
-      .filter(
-        (ActionClass: any) =>
-          !ActionClass.formats.length ||
-          ActionClass.formats.some((f) =>
-            this.quill.options.formats.includes(f)
-          )
-      );
+    const actions = spec.getActions().filter(
+      (ActionClass: any) =>
+        !ActionClass.formats.length ||
+        ActionClass.formats.some((f) =>
+          // @ts-expect-error 2339 seems to work; apparently not part of public API
+          this.quill.options.formats.includes(f)
+        )
+    );
     this.actions = actions.map((ActionClass: any) => {
       const action: Action = new ActionClass(this);
       action.onCreate();
@@ -104,16 +106,17 @@ export default class ImageActions {
       return;
     }
 
-    const parent: HTMLElement = this.quill.root.parentNode;
-    const specRect = overlayTarget.getBoundingClientRect();
-    const parentRect = parent.getBoundingClientRect();
+    this.withParentNode((pn) => {
+      const specRect = overlayTarget.getBoundingClientRect();
+      const parentRect = pn.getBoundingClientRect();
 
-    Object.assign(this.overlay.style, {
-      display: 'block',
-      left: `${specRect.left - parentRect.left - 1 + parent.scrollLeft}px`,
-      top: `${specRect.top - parentRect.top + parent.scrollTop}px`,
-      width: `${specRect.width}px`,
-      height: `${specRect.height}px`,
+      Object.assign(this.overlay.style, {
+        display: 'block',
+        left: `${specRect.left - parentRect.left - 1 + pn.scrollLeft}px`,
+        top: `${specRect.top - parentRect.top + pn.scrollTop}px`,
+        width: `${specRect.width}px`,
+        height: `${specRect.height}px`,
+      });
     });
   }
 
