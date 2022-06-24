@@ -1,3 +1,3 @@
 describe('empty spec', () => {
-  beforeEach(() => cy.visit('/cypress/fixtures/minimal.html'));
+  beforeEach(() => cy.visit('/assets/e2e.html'));
 });

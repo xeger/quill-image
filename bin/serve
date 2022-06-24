@@ -5,5 +5,13 @@
 const handler = require('serve-handler');
 const http = require('http');
 
-console.log('Test server listening on :8080');
-http.createServer(handler).listen(8080);
+const options = {
+  rewrites: [
+    { source: '/', destination: 'assets/playground.html' },
+    { source: '/favicon.ico', destination: 'assets/favicon.png' },
+  ],
+};
+const port = 8080;
+
+console.log(`Test server listening on :${port}`);
+http.createServer((req, res) => handler(req, res, options)).listen(port);
