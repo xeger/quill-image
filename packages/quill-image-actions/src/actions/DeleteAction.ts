@@ -1,4 +1,4 @@
-import Quill from 'quill';
+import type { Quill as IQuill } from 'quill';
 import Action from './Action';
 
 export default class DeleteAction extends Action {
@@ -23,7 +23,9 @@ export default class DeleteAction extends Action {
     if (e.keyCode === 46 || e.keyCode === 8) {
       const node = this.formatter.currentSpec.getTargetElement();
       if (node) {
-        const blot = Quill.find(node);
+        const blot = (this.formatter.quill.constructor as typeof IQuill).find(
+          node
+        );
         if (blot) {
           blot.deleteAt(0);
         }

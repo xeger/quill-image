@@ -1,4 +1,4 @@
-import Quill, { Quill as IQuill } from 'quill';
+import type { Quill as IQuill } from 'quill';
 import { Aligner } from './Aligner';
 import { Alignment } from './Alignment';
 import DefaultOptions from '../../Options';
@@ -62,7 +62,7 @@ export default class DefaultAligner implements Aligner {
   }
 
   getContext(el: HTMLElement) {
-    const blot = Quill.find(el);
+    const blot = (this.quill.constructor as typeof IQuill).find(el);
     if (!blot) return null;
     const index = this.quill.getIndex(blot);
     if (typeof index !== 'number') return null;

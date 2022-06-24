@@ -11,14 +11,18 @@
   </div>
 
   <script type="module">
+    import { ImageActions } from '/packages/quill-image-actions/lib/index.js';
     import { ImageFormats } from '/packages/quill-image-formats/lib/index.js';
 
+    Quill.register('modules/imageActions', ImageActions);
     Quill.register('modules/imageFormats', ImageFormats);
 
     const quill = new Quill('#editor', {
-      formats: ['header', 'bold', 'italic', 'underline', 'float', 'height', 'image', 'width'],
+      formats: ['align', 'float', 'height', 'image', 'width'],
       modules: {
-        imageFormats: {}
+        imageActions: {},
+        imageFormats: {},
+        toolbar: false
       },
       theme: 'snow'
     });
