@@ -1,0 +1,9 @@
+#! /usr/bin/env node
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable no-undef */
+
+const handler = require('serve-handler');
+const http = require('http');
+
+console.log('Test server listening on :8080');
+http.createServer(handler).listen(8080);
