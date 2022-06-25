@@ -47,8 +47,10 @@ export function imageWithFormats(Quill: typeof IQuill): EmbedBlot {
     format(name: string, value: string): void {
       if (!this.domNode || !isStyled(this.domNode)) return;
       if (STYLES.indexOf(name) >= 0) {
-        if (!value || STYLE_VALUES[name].indexOf(value) >= 0)
-          this.domNode.style[name] = value;
+        if (!value || STYLE_VALUES[name].indexOf(value) >= 0) {
+          // quill likes `false` to remove a style; DOM likes `null`
+          this.domNode.style[name] = value || null;
+        }
       } else super.format(name, value);
     }
   };
