@@ -8,25 +8,50 @@
 </head>
 
 <body>
-  <div id="editor" style="height: 80vh">
-    <img src="/assets/256x256.png" /> The quick red fox jumped over the lazy brown dog. The quick
-    red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped
-    over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy
-    brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The
-    quick red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox
-    jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped over the
-    lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog.
-    The quick red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red
-    fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped over
-    the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown
-    dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick
-    red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped
-    over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy
-    brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The
-    quick red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox
-    jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped over the
-    lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog.
-    The quick red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog.
+  <div id="sxs" style="display: flex; flex-direction: row;">
+    <div id="sxs__left" style="flex-basis: 50%;">
+      <div id="editor" style="height: 80vh">
+        <img src="/assets/256x256.png" /> The quick red fox jumped over the lazy brown dog. The quick
+        red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox
+        jumped
+        over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped over the
+        lazy
+        brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog.
+        The
+        quick red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red
+        fox
+        jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped over
+        the
+        lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown
+        dog.
+        The quick red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick
+        red
+        fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped
+        over
+        the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy
+        brown
+        dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The
+        quick
+        red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox
+        jumped
+        over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped over the
+        lazy
+        brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog.
+        The
+        quick red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red
+        fox
+        jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped over
+        the
+        lazy brown dog. The quick red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown
+        dog.
+        The quick red fox jumped over the lazy brown dog. The quick red fox jumped over the lazy brown dog.
+      </div>
+    </div>
+    <div id="sxs__right" style="flex-basis: 50%;">
+      <textarea id="json" style="width: 100%; height: 100%;">
+        (json will appear here after first edit)
+      </textarea>
+    </div>
   </div>
 
   <script type="module">
@@ -64,7 +89,10 @@
       theme: 'snow'
     });
 
-    window.quill = quill;
+    quill.on('text-change', () => {
+      const { ops } = quill.getContents();
+      document.getElementById('json').value = JSON.stringify(ops, null, 2);
+    });
   </script>
 </body>
 
