@@ -1,4 +1,4 @@
-describe('empty spec', () => {
+describe('quill-image-formats', () => {
   beforeEach(() => cy.visit('/assets/e2e.html'));
 
   context('custom formats in a delta', () => {
