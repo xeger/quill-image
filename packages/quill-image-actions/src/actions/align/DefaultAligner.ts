@@ -61,7 +61,11 @@ export default class DefaultAligner implements Aligner {
     };
   }
 
-  getContext(el: HTMLElement) {
+  getContext(el: HTMLElement): {
+    blot: any;
+    index: number;
+    precedesNewline: boolean | undefined;
+  } | null {
     const blot = (this.quill.constructor as typeof IQuill).find(el);
     if (!blot) return null;
     const index = this.quill.getIndex(blot);
@@ -86,7 +90,7 @@ export default class DefaultAligner implements Aligner {
     const ctx = this.getContext(el);
     if (!ctx) return;
     this.quill.formatLine(ctx.index, 1, 'align', false, 'user');
-    this.quill.formatText(ctx.index, 1, 'float', 'left', 'user');
+    this.quill.formatText(ctx.index, 1, 'float', false, 'user');
     if (ctx.precedesNewline) this.quill.deleteText(ctx.index + 1, 1, 'user');
   }
 
@@ -109,7 +113,6 @@ export default class DefaultAligner implements Aligner {
       case RIGHT_ALIGN:
         return attributes?.float === alignment.name;
       case CENTER_ALIGN:
-        // TODO: better!
         return afterAttributes?.align === 'center';
       default:
         return false;

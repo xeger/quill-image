@@ -95,11 +95,12 @@ describe('quill-image-actions', () => {
           cy.get(BTN).eq(0).should('have.class', 'is-selected');
         });
 
-        // TODO: fix this bug
-        it.skip('resets when clicked', () => {
+        it('resets when clicked', () => {
+          cy.get(IMG).click();
           cy.get(BTN).eq(0).click();
           cy.get(BTN).eq(0).should('not.have.class', 'is-selected');
-          cy.get(IMG).should('not.have.attr', 'style');
+          // TODO: fix this irregularity (remove style entirely)
+          cy.get(IMG).should('have.attr', 'style', '');
         });
       });
 
