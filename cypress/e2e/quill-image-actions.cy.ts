@@ -106,15 +106,14 @@ describe('quill-image-actions', () => {
       context('center', () => {
         givenContents({ center: true });
 
-        // TODO: fix this bug
-        it.skip('indicates', () => {
+        it('indicates', () => {
           cy.get(IMG).closest('p').should('have.class', 'ql-align-center');
           cy.get(IMG).click();
           cy.get(BTN).eq(1).should('have.class', 'is-selected');
         });
 
-        // TODO: fix this bug
-        it.skip('resets when clicked', () => {
+        it('resets when clicked', () => {
+          cy.get(IMG).click();
           cy.get(BTN).eq(1).click();
           cy.get(BTN).eq(1).should('not.have.class', 'is-selected');
           cy.get(IMG).closest('p').should('not.have.class', 'ql-align-center');
@@ -130,11 +129,11 @@ describe('quill-image-actions', () => {
           cy.get(BTN).eq(2).should('have.class', 'is-selected');
         });
 
-        // TODO: fix this bug
-        it.skip('resets when clicked', () => {
+        it('resets when clicked', () => {
+          cy.get(IMG).click();
           cy.get(BTN).eq(2).click();
           cy.get(BTN).eq(2).should('not.have.class', 'is-selected');
-          cy.get(IMG).should('not.have.attr', 'style');
+          cy.get(IMG).should('not.have.attr', 'style', 'float: right;');
         });
       });
     });

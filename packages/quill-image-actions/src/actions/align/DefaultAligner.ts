@@ -94,21 +94,23 @@ export default class DefaultAligner implements Aligner {
     const ctx = this.getContext(el);
     if (!ctx) return false;
     const contents = this.quill.getContents(ctx.index);
-    if (!contents.ops) return false;
+    const after = this.quill.getContents(ctx.index + 1);
+    if (!contents.ops || !after.ops) return false;
     const [
       {
         attributes,
         insert: { image },
       },
     ] = contents.ops;
+    const [{ attributes: afterAttributes }] = after.ops;
     if (!image) return false;
     switch (alignment.name) {
       case LEFT_ALIGN:
       case RIGHT_ALIGN:
         return attributes?.float === alignment.name;
       case CENTER_ALIGN:
-        // TODO: check line formatting (how?)
-        return false;
+        // TODO: better!
+        return afterAttributes?.align === 'center';
       default:
         return false;
     }
