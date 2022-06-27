@@ -97,7 +97,8 @@ export default class DefaultAligner implements Aligner {
     if (!contents.ops) return false;
     const [
       {
-        insert: { attributes, image },
+        attributes,
+        insert: { image },
       },
     ] = contents.ops;
     if (!image) return false;

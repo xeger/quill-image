@@ -88,11 +88,53 @@ describe('quill-image-actions', () => {
     context('given existing content', () => {
       context('float left', () => {
         givenContents({ float: 'left' });
-        it.skip('indicates', () => {
+
+        it('indicates', () => {
           cy.get(IMG).should('have.attr', 'style', 'float: left;');
           cy.get(IMG).click();
-          // TODO: fix this bug in the extension
           cy.get(BTN).eq(0).should('have.class', 'is-selected');
+        });
+
+        // TODO: fix this bug
+        it.skip('resets when clicked', () => {
+          cy.get(BTN).eq(0).click();
+          cy.get(BTN).eq(0).should('not.have.class', 'is-selected');
+          cy.get(IMG).should('not.have.attr', 'style');
+        });
+      });
+
+      context('center', () => {
+        givenContents({ center: true });
+
+        // TODO: fix this bug
+        it.skip('indicates', () => {
+          cy.get(IMG).closest('p').should('have.class', 'ql-align-center');
+          cy.get(IMG).click();
+          cy.get(BTN).eq(1).should('have.class', 'is-selected');
+        });
+
+        // TODO: fix this bug
+        it.skip('resets when clicked', () => {
+          cy.get(BTN).eq(1).click();
+          cy.get(BTN).eq(1).should('not.have.class', 'is-selected');
+          cy.get(IMG).closest('p').should('not.have.class', 'ql-align-center');
+        });
+      });
+
+      context('float right', () => {
+        givenContents({ float: 'right' });
+
+        it('indicates', () => {
+          cy.get(IMG).should('have.attr', 'style', 'float: right;');
+          cy.get(IMG).click();
+          cy.get(BTN).eq(2).should('have.class', 'is-selected');
+        });
+
+        // TODO: fix this bug
+        it.skip('resets when clicked', () => {
+          cy.get(BTN).eq(2).click();
+          cy.get(BTN).eq(2).should('not.have.class', 'is-selected');
+          cy.get(IMG).should('not.have.attr', 'style');
         });
       });
     });
