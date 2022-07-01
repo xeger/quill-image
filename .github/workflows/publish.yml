@@ -1,0 +1,57 @@
+name: publish
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    name: publish
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - name: Set Package Versions
+        run: |
+          release='${{ github.event.release.tag_name }}'
+          version=`echo $release | cut -b2-`
+          if ! echo $release | grep -q '^v[0-9]\+\.[0-9]\+\.[0-9]\+$'; then
+            echo "Release name must be in the format of 'vX.Y.Z', got '$release'"
+            exit 1
+          fi
+          for pkg in packages/*; do
+            pushd $pkg
+            sed -i -r "s/\"version\": *\".+\"/\"version\": \"$version\"/" package.json
+            popd
+          done
+      - run: npm ci
+      - run: npm run build --workspaces
+      - name: Publish to NPM
+        run: |
+          touch $HOME/.npmrc
+          chmod 0600 $HOME/.npmrc
+          cat << EOF > ~/.npmrc
+          //registry.npmjs.org/:_authToken=${NPM_TOKEN}
+          @xeger:registry=https://registry.npmjs.org/
+          EOF
+          npm publish --workspaces
+      - name: Publish to GitHub
+        run: |
+          touch $HOME/.npmrc
+          chmod 0600 $HOME/.npmrc
+          cat << EOF > ~/.npmrc
+          //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+          @xeger:registry=https://npm.pkg.github.com/
+          EOF
+          npm publish --workspaces
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
