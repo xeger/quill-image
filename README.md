@@ -18,47 +18,36 @@ It is a fork and rewrite of [quill-blot-formatter](https://www.npmjs.com/package
 
 ### With a Plain HTML Page
 
-Load the Quill bundle, import the extension modules, register them with the Quill framework, and instantiate an editor. Make sure to include the formats and modules in the editor's configuration!
+In your `head`, load the Quill bundle.
 
 ```html
-<!DOCTYPE html>
-
-<html>
-  <head>
-    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
-    <script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
-  </head>
-  <body>
-    <div id="editor" />
-    <script type="module">
-      import { ImageActions } from 'TODO';
-      import { ImageFormats } from 'TODO';
-
-      Quill.register('modules/imageActions', ImageActions);
-      Quill.register('modules/imageFormats', ImageFormats);
-
-      const quill = new Quill('#editor', {
-        formats: ['align', 'float'],
-        modules: {
-          imageActions: {},
-          imageFormats: {},
-          toolbar: [
-            [{ 'align': [] }],
-            ['clean']
-          ]
-        },
-        theme: 'snow'
-      });
-
-      quill.on('text-change',
-        () => console.log(quill.getContents().ops)
-      );
-    </script>
-  </body>
-</html>
+<head>
+  <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
+</head>
 ```
 
+Then, in a module-type `script` tag, import the extensions.
+
+```html
+  <script type="module">
+    import { ImageActions } from 'https://cdn.jsdelivr.net/npm/@xeger/quill-image-actions/lib/index.js';
+    import { ImageFormats } from 'https://cdn.jsdelivr.net/npm/@xeger/quill-image-formats/lib/index.js';
+
+    // TODO: Register the modules with Quill singleton
+    // TODO: Instantiate a Quill instance w/ suitable configuration
+```
+
+See [the demo page](assets/demo.html) for a complete, working example.
+
 ### With a React Project
+
+Add the dependencies to your project.
+
+```shell
+npm install @xeger/quill-image-actions --save-prod
+npm install @xeger/quill-image-formats --save-prod
+```
 
 At startup, import the extension modules and register them with `react-quill`'s wrapper of the Quill framework.
 
