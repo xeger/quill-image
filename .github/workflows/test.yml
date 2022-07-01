@@ -1,12 +1,12 @@
-name: test
+name: Test
 
 on:
   - pull_request
   - push
 
 jobs:
-  test:
-    name: test
+  e2e:
+    name: E2E
 
     runs-on: ubuntu-latest
     container:

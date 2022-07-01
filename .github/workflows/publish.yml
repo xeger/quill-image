@@ -1,4 +1,4 @@
-name: publish
+name: Build and Publish
 
 on:
   release:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   publish:
-    name: publish
+    name: Build and Publish
 
     runs-on: ubuntu-latest
 
@@ -32,8 +32,12 @@ jobs:
             sed -i -r "s/\"version\": *\".+\"/\"version\": \"$version\"/" package.json
             popd
           done
-      - run: npm ci
-      - run: npm run build --workspaces
+      - name: Install Dependencies
+        run: npm ci
+      - name: Build Packages
+        run: |
+          npm run clean # for paranoia
+          npm run build
       - name: Publish to NPM
         run: |
           touch $HOME/.npmrc
@@ -43,6 +47,8 @@ jobs:
           @xeger:registry=https://registry.npmjs.org/
           EOF
           npm publish --workspaces
+        env:
+          NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
       - name: Publish to GitHub
         run: |
           touch $HOME/.npmrc
@@ -54,4 +60,3 @@ jobs:
           npm publish --workspaces
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
