@@ -1,10 +1,10 @@
 # Quill Image
 
-This repository contains a pair of extensions for the [Quill rich text editor](https://quilljs.com/) that improves the styling of images embedded in the editor and adds an intuitive UI for applying styles.
+This is a set of Quill modules, designed to be used together, that fully integrate with the Quill Delta format to provide resizable, floatable images independent from the HTML DOM.
 
 ![Image actions overlay](assets/screenshot.png)
 
-It is a fork and rewrite of [quill-blot-formatter](https://www.npmjs.com/package/quill-blot-formatter) that varies in the following ways:
+It is a fork and rewrite of [quill-blot-formatter](https://www.npmjs.com/package/quill-blot-formatter) that makes the following improvements:
 
 1. Functionality is decomposed into two packages: `@xeger/quill-image-formats` which extends Quill's built-in `Image` blot with new formats; and `@xeger/quill-image-actions` which contains the UI for applying and removing those formats.
 1. Instead of applying `align` (an existing block format) to images, we define a new `float` format which allows text to wrap naturally around images.
