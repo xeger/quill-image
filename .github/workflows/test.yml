@@ -1,0 +1,27 @@
+name: test
+
+on:
+  - pull_request
+  - push
+
+jobs:
+  test:
+    name: test
+
+    runs-on: ubuntu-latest
+    container:
+      image: cypress/browsers:node16.13.2-chrome100-ff98
+      options: --user 1001
+
+    strategy:
+      matrix:
+        browser: ["chrome", "firefox"]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: cypress run
+        uses: cypress-io/github-action@v4
+        with:
+          browser: ${{ matrix.browser }}
+          build: npm run build
+          start: npm start
