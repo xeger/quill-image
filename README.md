@@ -4,6 +4,10 @@ This is a set of Quill modules, designed to be used together, that fully integra
 
 ![Image actions overlay](assets/screenshot.png)
 
+Visit our [code sandbox](https://8fn0sp.csb.app/) to try it out yourself.
+
+## History
+
 It is a fork and rewrite of [quill-blot-formatter](https://www.npmjs.com/package/quill-blot-formatter) that makes the following improvements:
 
 1. Functionality is decomposed into two packages: `@xeger/quill-image-formats` which extends Quill's built-in `Image` blot with new formats; and `@xeger/quill-image-actions` which contains the UI for applying and removing those formats.
