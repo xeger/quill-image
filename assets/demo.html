@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
+</head>
+
+<body>
+  <div id="editor">
+    <img src="https://raw.githubusercontent.com/xeger/quill-image/main/assets/256x256.png" style="float: left" />
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+    aliqua. Consectetur adipiscing elit ut aliquam purus sit amet luctus. Et tortor at risus viverra adipiscing at in
+    tellus integer. Lectus urna duis convallis convallis tellus id interdum. Pellentesque elit eget gravida cum.
+    Dignissim suspendisse in est ante in. Eu facilisis sed odio morbi quis commodo odio aenean sed. Ipsum nunc aliquet
+    bibendum enim facilisis gravida. Nulla malesuada pellentesque elit eget. Varius duis at consectetur lorem donec
+    massa sapien faucibus. Integer malesuada nunc vel risus commodo. Et egestas quis ipsum suspendisse ultrices gravida
+    dictum fusce. Risus commodo viverra maecenas accumsan lacus vel. Volutpat sed cras ornare arcu dui vivamus arcu
+    felis bibendum.
+  </div>
+  <script type="module">
+    import { ImageActions } from 'https://cdn.jsdelivr.net/npm/@xeger/quill-image-actions/lib/index.js';
+    import { ImageFormats } from 'https://cdn.jsdelivr.net/npm/@xeger/quill-image-formats/lib/index.js';
+
+    Quill.register('modules/imageActions', ImageActions);
+    Quill.register('modules/imageFormats', ImageFormats);
+
+    const quill = new Quill('#editor', {
+      formats: ['align', 'background', 'blockquote', 'bold', 'code-block', 'color', 'float', 'font', 'header', 'height', 'image', 'italic', 'link', 'script', 'strike', 'size', 'underline', 'width'],
+      modules: {
+        imageActions: {},
+        imageFormats: {},
+        toolbar: [
+          ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+          ['blockquote', 'code-block'],
+
+          [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+          [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+          [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+          [{ 'direction': 'rtl' }],                         // text direction
+
+          [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+          [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+          [{ 'font': [] }],
+          [{ 'align': [] }],
+
+          ['clean']
+        ]
+      },
+      theme: 'snow'
+    });
+
+    quill.on('text-change',
+      () => console.log(quill.getContents().ops)
+    );
+  </script>
+</body>
+
+</html>

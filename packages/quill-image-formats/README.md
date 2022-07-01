@@ -1,29 +1,5 @@
 # Quill Image Formats
 
-# What is this?
+This is a Quill module that provides resizable, floatable images independent from the HTML DOM. It is designed to be used together with `@xeger/quill-image-actions`.
 
-TODO
-
-# How do I use it?
-
-TODO
-
-# Contributing to the Project
-
-## Building the repo
-
-```sh
-npm run build
-```
-
-## Type-checking the repo
-
-```sh
-npm run type-check
-```
-
-And to run in `--watch` mode:
-
-```sh
-npm run type-check:watch
-```
+For more information, please see [combined README](https://github.com/xeger/quill-image#readme).

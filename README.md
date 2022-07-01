@@ -1,10 +1,14 @@
 # Quill Image
 
-This repository contains a pair of extensions for the [Quill rich text editor](https://quilljs.com/) that improves the styling of images embedded in the editor and adds an intuitive UI for applying styles.
+This is a set of Quill modules, designed to be used together, that fully integrate with the Quill Delta format to provide resizable, floatable images independent from the HTML DOM.
 
 ![Image actions overlay](assets/screenshot.png)
 
-It is a fork and rewrite of [quill-blot-formatter](https://www.npmjs.com/package/quill-blot-formatter) that varies in the following ways:
+Visit our [code sandbox](https://8fn0sp.csb.app/) to try it out yourself.
+
+## History
+
+It is a fork and rewrite of [quill-blot-formatter](https://www.npmjs.com/package/quill-blot-formatter) that makes the following improvements:
 
 1. Functionality is decomposed into two packages: `@xeger/quill-image-formats` which extends Quill's built-in `Image` blot with new formats; and `@xeger/quill-image-actions` which contains the UI for applying and removing those formats.
 1. Instead of applying `align` (an existing block format) to images, we define a new `float` format which allows text to wrap naturally around images.
@@ -18,47 +22,36 @@ It is a fork and rewrite of [quill-blot-formatter](https://www.npmjs.com/package
 
 ### With a Plain HTML Page
 
-Load the Quill bundle, import the extension modules, register them with the Quill framework, and instantiate an editor. Make sure to include the formats and modules in the editor's configuration!
+In your `head`, load the Quill bundle.
 
 ```html
-<!DOCTYPE html>
-
-<html>
-  <head>
-    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
-    <script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
-  </head>
-  <body>
-    <div id="editor" />
-    <script type="module">
-      import { ImageActions } from 'TODO';
-      import { ImageFormats } from 'TODO';
-
-      Quill.register('modules/imageActions', ImageActions);
-      Quill.register('modules/imageFormats', ImageFormats);
-
-      const quill = new Quill('#editor', {
-        formats: ['align', 'float'],
-        modules: {
-          imageActions: {},
-          imageFormats: {},
-          toolbar: [
-            [{ 'align': [] }],
-            ['clean']
-          ]
-        },
-        theme: 'snow'
-      });
-
-      quill.on('text-change',
-        () => console.log(quill.getContents().ops)
-      );
-    </script>
-  </body>
-</html>
+<head>
+  <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
+</head>
 ```
 
+Then, in a module-type `script` tag, import the extensions.
+
+```html
+  <script type="module">
+    import { ImageActions } from 'https://cdn.jsdelivr.net/npm/@xeger/quill-image-actions/lib/index.js';
+    import { ImageFormats } from 'https://cdn.jsdelivr.net/npm/@xeger/quill-image-formats/lib/index.js';
+
+    // TODO: Register the modules with Quill singleton
+    // TODO: Instantiate a Quill instance w/ suitable configuration
+```
+
+See [the demo page](assets/demo.html) for a complete, working example.
+
 ### With a React Project
+
+Add the dependencies to your project.
+
+```shell
+npm install @xeger/quill-image-actions --save-prod
+npm install @xeger/quill-image-formats --save-prod
+```
 
 At startup, import the extension modules and register them with `react-quill`'s wrapper of the Quill framework.
 
