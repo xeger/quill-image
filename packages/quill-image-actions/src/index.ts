@@ -15,3 +15,5 @@ export { default as BlotSpec } from './specs/BlotSpec';
 export { default as ImageSpec } from './specs/ImageSpec';
 export { default as UnclickableBlotSpec } from './specs/UnclickableBlotSpec';
 export { default as IframeVideoSpec } from './specs/IframeVideoSpec';
+
+import ImageActions from './ImageActions';

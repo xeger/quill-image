@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 /**
  * Unified ES+TS+Prettier configuration for ESLint. Inspired by:
  * https://dev.to/robertcoopercode/using-eslint-and-prettier-in-a-typescript-project-53jb
@@ -7,6 +9,7 @@
  */
 
 module.exports = {
+  ignorePatterns: ['**/dist/**/*', '**/lib/**/*'],
   parser: '@typescript-eslint/parser',
   env: {
     es6: true,
