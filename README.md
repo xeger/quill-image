@@ -1,6 +1,6 @@
 # Quill Image
 
-This is a set of Quill modules, designed to be used together, that fully integrate with the Quill Delta format to provide resizable, floatable images independent from the HTML DOM.
+This is a set of Quill modules, designed to be used together, that fully integrate with the Quill Delta format to provide resizable, floatable images that cleanly "round trip" between HTML and JSON.
 
 ![Image actions overlay](assets/screenshot.png)
 
@@ -8,7 +8,7 @@ Visit our [code sandbox](https://8fn0sp.csb.app/) to try it out yourself.
 
 ## History
 
-It is a fork and rewrite of [quill-blot-formatter](https://www.npmjs.com/package/quill-blot-formatter) that makes the following improvements:
+This project is a fork and rewrite of [quill-blot-formatter](https://www.npmjs.com/package/quill-blot-formatter), which is itself a fork of [an earlier work](https://github.com/kensnyder/quill-image-resize-module). This project makes the following improvements:
 
 1. Functionality is decomposed into two packages: `@xeger/quill-image-formats` which extends Quill's built-in `Image` blot with new formats; and `@xeger/quill-image-actions` which contains the UI for applying and removing those formats.
 1. Instead of applying `align` (an existing block format) to images, we define a new `float` format which allows text to wrap naturally around images.
@@ -18,35 +18,19 @@ It is a fork and rewrite of [quill-blot-formatter](https://www.npmjs.com/package
 
 ## Getting Started
 
-**Note:** these packages are pure Node modules and do not have default exports. They are distributed with a CommonJS bundle as well as modular source files (which advanced users can import piecemeal), but the full API is exposed through top-level exports.
+**Note:** these packages are pure Node modules and do not have default exports. They are distributed with both a CommonJS bundle and an ES module. The primary export from each package is a Quill module, but
+additional, nested exports provide access to the implementation details
+to facilitate customization. Typings are provided for all exports.
 
 ### With a Plain HTML Page
 
-In your `head`, load the Quill bundle.
+See the [demo page](assets/demo.html) or the [code sandbox](https://8fn0sp.csb.app/) for a complete, working example.
 
-```html
-<head>
-  <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
-  <script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
-</head>
-```
-
-Then, in a module-type `script` tag, import the extensions.
-
-```html
-  <script type="module">
-    import { ImageActions } from 'https://cdn.jsdelivr.net/npm/@xeger/quill-image-actions/lib/index.js';
-    import { ImageFormats } from 'https://cdn.jsdelivr.net/npm/@xeger/quill-image-formats/lib/index.js';
-
-    // TODO: Register the modules with Quill singleton
-    // TODO: Instantiate a Quill instance w/ suitable configuration
-```
-
-See [the demo page](assets/demo.html) for a complete, working example.
+Whenever you `new Quill`, make sure to include the formats _and the modules_ in its configuration; otherwise things will not work right.
 
 ### With a React Project
 
-Add the dependencies to your project.
+Add the `quill-image` packages to your project's dependencies.
 
 ```shell
 npm install @xeger/quill-image-actions --save-prod
@@ -64,7 +48,7 @@ Quill.register('modules/imageActions', ImageActions);
 Quill.register('modules/imageFormats', ImageFormats);
 ```
 
-Whenever you instantiate a `ReactQuill`, make sure to include the formats and modules in its configuration!
+Whenever you `new ReactQuill`, make sure to include the formats _and the modules_ in its configuration; otherwise things will not work right.
 
 ```typescript
 import React from 'react';
