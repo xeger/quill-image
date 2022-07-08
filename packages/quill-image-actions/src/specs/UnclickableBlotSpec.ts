@@ -113,10 +113,10 @@ export default class UnclickableBlotSpec extends BlotSpec {
     this.repositionProxyImage(this.nextUnclickable);
   };
 
-  onProxyImageClick = (): void => {
+  onProxyImageClick = (event: MouseEvent): void => {
     this.unclickable = this.nextUnclickable;
     this.nextUnclickable = null;
-    this.formatter.show(this);
+    this.formatter.show(this, event);
     this.hideProxyImage();
   };
 }

@@ -1,6 +1,9 @@
 const BTN = '.image-actions__toolbar-button';
+const EDITOR = '.ql-editor';
 const IMG = '.ql-editor img';
 const OVL = '#editor >.image-actions__overlay';
+const LOREM =
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ';
 
 const givenContents = ({
   center,
@@ -9,7 +12,8 @@ const givenContents = ({
   beforeEach(() =>
     cy.quillSetContents([
       {
-        insert: 'Hello World!\n',
+        attributes: { header: true },
+        insert: 'De Finibus Bonorum et Malorum\n',
       },
       {
         attributes: float ? { float } : undefined,
@@ -23,7 +27,7 @@ const givenContents = ({
             insert: '\nHI HI HI',
           }
         : {
-            insert: 'Albert says hi!\n\n',
+            insert: LOREM.repeat(100) + '\n\n',
           },
     ])
   );
@@ -51,6 +55,16 @@ describe('quill-image-actions', () => {
             expect(bounds.bottom).to.be.within(bottom - 1, bottom + 1);
             expect(bounds.left).to.be.within(left - 1, left + 1);
           });
+        });
+      });
+
+      context('and editor scrolled', () => {
+        beforeEach(() => {
+          cy.wait(100).get(EDITOR).scrollTo('center').scrollTo('top');
+        });
+
+        it('disappears', () => {
+          cy.get(OVL).should('not.exist');
         });
       });
     });

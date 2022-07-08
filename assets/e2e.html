@@ -8,7 +8,7 @@
 </head>
 
 <body>
-  <div id="editor" style="height: 80vh">
+  <div id="editor" style="height: 80vh; overflow: hidden;">
     <p><br></p>
   </div>
 
@@ -20,7 +20,7 @@
     Quill.register('modules/imageFormats', ImageFormats);
 
     const quill = new Quill('#editor', {
-      formats: ['align', 'float', 'height', 'image', 'width'],
+      formats: ['align', 'float', 'header', 'height', 'image', 'width'],
       modules: {
         imageActions: {},
         imageFormats: {},
