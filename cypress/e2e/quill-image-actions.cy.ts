@@ -29,6 +29,15 @@ const givenContents = ({
         : {
             insert: LOREM.repeat(100) + '\n\n',
           },
+      {
+        attributes: float ? { float } : undefined,
+        insert: {
+          image: '256x256.png',
+        },
+      },
+      {
+        insert: LOREM.repeat(10) + '\n',
+      },
     ])
   );
 
@@ -41,21 +50,23 @@ describe('quill-image-actions', () => {
     givenContents();
 
     context('when image clicked', () => {
-      beforeEach(() => cy.get(IMG).click());
+      beforeEach(() => cy.get(IMG).eq(0).click());
 
       it('pops up', () => {
-        cy.get(IMG).then(($img) => {
-          cy.get(OVL).then(($ovl) => {
-            const { top, right, bottom, left } =
-              $img[0].getBoundingClientRect();
-            const bounds = $ovl[0].getBoundingClientRect();
+        cy.get(IMG)
+          .eq(0)
+          .then(($img) => {
+            cy.get(OVL).then(($ovl) => {
+              const { top, right, bottom, left } =
+                $img[0].getBoundingClientRect();
+              const bounds = $ovl[0].getBoundingClientRect();
 
-            expect(bounds.top).to.be.within(top - 1, top + 1);
-            expect(bounds.right).to.be.within(right - 1, right + 1);
-            expect(bounds.bottom).to.be.within(bottom - 1, bottom + 1);
-            expect(bounds.left).to.be.within(left - 1, left + 1);
+              expect(bounds.top).to.be.within(top - 1, top + 1);
+              expect(bounds.right).to.be.within(right - 1, right + 1);
+              expect(bounds.bottom).to.be.within(bottom - 1, bottom + 1);
+              expect(bounds.left).to.be.within(left - 1, left + 1);
+            });
           });
-        });
       });
 
       context('and editor scrolled', () => {
@@ -70,7 +81,7 @@ describe('quill-image-actions', () => {
     });
 
     context('when dragged', () => {
-      beforeEach(() => cy.get(IMG).click());
+      beforeEach(() => cy.get(IMG).eq(0).click());
 
       it('resizes from NE', () => {
         cy.get(OVL).drag('topRight', -32, 32);
@@ -104,17 +115,17 @@ describe('quill-image-actions', () => {
         givenContents({ float: 'left' });
 
         it('indicates', () => {
-          cy.get(IMG).should('have.attr', 'style', 'float: left;');
-          cy.get(IMG).click();
+          cy.get(IMG).eq(0).should('have.attr', 'style', 'float: left;');
+          cy.get(IMG).eq(0).click();
           cy.get(BTN).eq(0).should('have.class', 'is-selected');
         });
 
         it('resets when clicked', () => {
-          cy.get(IMG).click();
+          cy.get(IMG).eq(0).click();
           cy.get(BTN).eq(0).click();
           cy.get(BTN).eq(0).should('not.have.class', 'is-selected');
           // TODO: fix this irregularity (remove style entirely)
-          cy.get(IMG).should('have.attr', 'style', '');
+          cy.get(IMG).eq(0).should('have.attr', 'style', '');
         });
       });
 
@@ -122,16 +133,22 @@ describe('quill-image-actions', () => {
         givenContents({ center: true });
 
         it('indicates', () => {
-          cy.get(IMG).closest('p').should('have.class', 'ql-align-center');
-          cy.get(IMG).click();
+          cy.get(IMG)
+            .eq(0)
+            .closest('p')
+            .should('have.class', 'ql-align-center');
+          cy.get(IMG).eq(0).click();
           cy.get(BTN).eq(1).should('have.class', 'is-selected');
         });
 
         it('resets when clicked', () => {
-          cy.get(IMG).click();
+          cy.get(IMG).eq(0).click();
           cy.get(BTN).eq(1).click();
           cy.get(BTN).eq(1).should('not.have.class', 'is-selected');
-          cy.get(IMG).closest('p').should('not.have.class', 'ql-align-center');
+          cy.get(IMG)
+            .eq(0)
+            .closest('p')
+            .should('not.have.class', 'ql-align-center');
         });
       });
 
@@ -139,38 +156,50 @@ describe('quill-image-actions', () => {
         givenContents({ float: 'right' });
 
         it('indicates', () => {
-          cy.get(IMG).should('have.attr', 'style', 'float: right;');
-          cy.get(IMG).click();
+          cy.get(IMG).eq(0).should('have.attr', 'style', 'float: right;');
+          cy.get(IMG).eq(0).click();
           cy.get(BTN).eq(2).should('have.class', 'is-selected');
         });
 
         it('resets when clicked', () => {
-          cy.get(IMG).click();
+          cy.get(IMG).eq(0).click();
           cy.get(BTN).eq(2).click();
           cy.get(BTN).eq(2).should('not.have.class', 'is-selected');
-          cy.get(IMG).should('not.have.attr', 'style', 'float: right;');
+          cy.get(IMG).eq(0).should('not.have.attr', 'style', 'float: right;');
         });
       });
     });
 
     context('when clicked', () => {
       givenContents();
-      beforeEach(() => cy.get(IMG).click());
 
-      it('float left', () => {
-        cy.get(BTN).eq(0).click().should('have.class', 'is-selected');
-        cy.get(IMG).should('have.attr', 'style', 'float: left;');
+      it('scrolls reasonably', () => {
+        cy.get(EDITOR).scrollTo('bottom');
+        cy.get(IMG).eq(1).click();
+        cy.get(IMG).eq(1).should('be.visible');
       });
 
-      it('center', () => {
-        cy.get(BTN).eq(1).click().should('have.class', 'is-selected');
-        cy.get(IMG).should('not.have.attr', 'style');
-        cy.get(IMG).closest('p').should('have.class', 'ql-align-center');
-      });
+      context('action buttons', () => {
+        beforeEach(() => cy.get(IMG).eq(0).click());
 
-      it('float right', () => {
-        cy.get(BTN).eq(2).click().should('have.class', 'is-selected');
-        cy.get(IMG).should('have.attr', 'style', 'float: right;');
+        it('float left', () => {
+          cy.get(BTN).eq(0).click().should('have.class', 'is-selected');
+          cy.get(IMG).eq(0).should('have.attr', 'style', 'float: left;');
+        });
+
+        it('center', () => {
+          cy.get(BTN).eq(1).click().should('have.class', 'is-selected');
+          cy.get(IMG).eq(0).should('not.have.attr', 'style');
+          cy.get(IMG)
+            .eq(0)
+            .closest('p')
+            .should('have.class', 'ql-align-center');
+        });
+
+        it('float right', () => {
+          cy.get(BTN).eq(2).click().should('have.class', 'is-selected');
+          cy.get(IMG).eq(0).should('have.attr', 'style', 'float: right;');
+        });
       });
     });
   });
