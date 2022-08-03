@@ -12,6 +12,7 @@ export default class ImageActions {
   static DefaultOptions = DefaultOptions;
 
   quill: Quill;
+  Quill: typeof Quill;
   options: typeof DefaultOptions;
   currentSpec?: BlotSpec | null;
   specs: BlotSpec[];
@@ -21,6 +22,7 @@ export default class ImageActions {
 
   constructor(quill: Quill, options: Options = {}) {
     this.quill = quill;
+    this.Quill = quill.constructor as typeof Quill;
     this.options = deepmerge(DefaultOptions, options, {
       arrayMerge: dontMerge,
     }) as typeof DefaultOptions;
