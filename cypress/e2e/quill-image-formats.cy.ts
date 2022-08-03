@@ -44,11 +44,11 @@ describe('quill-image-formats', () => {
       );
     });
 
-    it.only('applies width', () =>
+    it('applies width', () =>
       cy.get('#editor img').should('have.attr', 'width', 64));
-    it.only('applies height', () =>
+    it('applies height', () =>
       cy.get('#editor img').should('have.attr', 'height', 128));
-    it.only('applies float', () =>
+    it('applies float', () =>
       cy.get('#editor img').should('have.css', 'float', 'left'));
   });
 });

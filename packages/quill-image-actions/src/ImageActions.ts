@@ -12,15 +12,16 @@ export default class ImageActions {
   static DefaultOptions = DefaultOptions;
 
   quill: Quill;
+  Quill: typeof Quill;
   options: typeof DefaultOptions;
   currentSpec?: BlotSpec | null;
   specs: BlotSpec[];
   overlay: HTMLElement;
-  overlayShownAt = 0;
   actions: Action[];
 
   constructor(quill: Quill, options: Options = {}) {
     this.quill = quill;
+    this.Quill = quill.constructor as typeof Quill;
     this.options = deepmerge(DefaultOptions, options, {
       arrayMerge: dontMerge,
     }) as typeof DefaultOptions;
@@ -38,8 +39,8 @@ export default class ImageActions {
       pn.style.position = pn.style.position || 'relative';
     });
 
-    this.quill.root.addEventListener('click', this.maybeHideOverlay);
-    this.quill.root.addEventListener('scroll', this.maybeHideOverlay);
+    this.quill.root.addEventListener('click', () => this.hide());
+    this.quill.root.addEventListener('scroll', () => this.update());
     this.specs = this.options.specs.map((Class) => new Class(this));
     this.specs.forEach((spec) => spec.init());
   }
@@ -50,8 +51,7 @@ export default class ImageActions {
     }
   }
 
-  show(spec: BlotSpec, event: Event): void {
-    this.overlayShownAt = event.timeStamp;
+  show(spec: BlotSpec): void {
     this.currentSpec = spec;
     this.currentSpec.setSelection();
     this.setUserSelect('none');
@@ -139,14 +139,4 @@ export default class ImageActions {
       }
     });
   }
-
-  // Hide the overlay unless we're in the middle of showing it.
-  // This happens because clicking on the overlay, can cause the container to scroll.
-  // Normally we hide on scroll (but not "during" a click on an image).
-  maybeHideOverlay = (ev: Event): void => {
-    const dt = ev.timeStamp - this.overlayShownAt;
-    if (dt > 100) {
-      this.hide();
-    }
-  };
 }

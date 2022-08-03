@@ -127,6 +127,8 @@ export default class ResizeAction extends Action {
     this.preDragWidth = rect.width;
     this.targetRatio = rect.height / rect.width;
 
+    event.preventDefault();
+    event.stopPropagation();
     document.addEventListener('mousemove', this.onDrag);
     document.addEventListener('mouseup', this.onMouseUp);
   };
