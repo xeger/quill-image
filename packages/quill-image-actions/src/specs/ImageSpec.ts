@@ -28,6 +28,6 @@ export default class ImageSpec extends BlotSpec {
     }
 
     this.img = el;
-    this.formatter.show(this, event);
+    this.formatter.show(this);
   };
 }

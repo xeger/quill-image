@@ -71,11 +71,24 @@ describe('quill-image-actions', () => {
 
       context('and editor scrolled', () => {
         beforeEach(() => {
-          cy.wait(100).get(EDITOR).scrollTo('center').scrollTo('top');
+          cy.wait(250).get(EDITOR).scrollTo(0, 128).wait(250);
         });
 
-        it('disappears', () => {
-          cy.get(OVL).should('not.exist');
+        it('updates position', () => {
+          cy.get(IMG)
+            .eq(0)
+            .then(($img) => {
+              cy.get(OVL).then(($ovl) => {
+                const { top, right, bottom, left } =
+                  $img[0].getBoundingClientRect();
+                const bounds = $ovl[0].getBoundingClientRect();
+
+                expect(bounds.top).to.be.within(top - 1, top + 1);
+                expect(bounds.right).to.be.within(right - 1, right + 1);
+                expect(bounds.bottom).to.be.within(bottom - 1, bottom + 1);
+                expect(bounds.left).to.be.within(left - 1, left + 1);
+              });
+            });
         });
       });
     });
