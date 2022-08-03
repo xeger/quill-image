@@ -19,9 +19,11 @@
     "serve-handler": "^6.1.3"
   },
   "scripts": {
-    "start": "bin/serve",
+    "start": "npm-run-all --parallel serve watch",
     "build": "npm run build --workspaces",
     "clean": "npm run clean --workspaces",
-    "cy:open": "cypress open --e2e"
+    "cy:open": "cypress open --e2e",
+    "serve": "bin/serve",
+    "watch": "npm run watch --workspaces"
   }
 }
