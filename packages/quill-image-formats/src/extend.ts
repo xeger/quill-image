@@ -3,6 +3,10 @@ import type Parchment from 'parchment';
 
 type EmbedBlot = typeof Parchment.Embed;
 
+type StyleMap = Partial<{
+  [key in keyof CSSStyleDeclaration]: string[];
+}>;
+
 function isStyled(node: any): node is HTMLElement {
   return node && !!node.style;
 }
@@ -22,8 +26,11 @@ function isStyled(node: any): node is HTMLElement {
 export function imageWithFormats(Quill: typeof IQuill): EmbedBlot {
   const Image: EmbedBlot = Quill.import('formats/image');
 
+  const DOWNCONVERT_STYLES = ['width', 'height'];
+
   const STYLES = ['float'];
-  const STYLE_VALUES: Record<string, string[]> = {
+
+  const STYLE_VALUES: StyleMap = {
     float: ['left', 'right'],
   };
 
@@ -34,14 +41,22 @@ export function imageWithFormats(Quill: typeof IQuill): EmbedBlot {
 
       // CSS styles (float, etc)
       const local = STYLES.reduce((formats, style) => {
-        const value = domNode.style[style as any];
+        const value = domNode.style[style];
         if (value && STYLE_VALUES[style].indexOf(value) >= 0)
           formats[style] = value;
         return formats;
-      }, {} as Record<string, string>);
-      const formats = Object.assign({}, inherited, local);
+      }, {});
 
-      return formats;
+      // CSS styles that should be attributes, but might be pasted from
+      // noncomformant source -- downconvert them to attributes
+      const downconverted = DOWNCONVERT_STYLES.reduce((formats, style) => {
+        const value = domNode.style[style];
+        if (value && value.endsWith('px'))
+          formats[style] = value.replace('px', '');
+        return formats;
+      }, {});
+
+      return Object.assign({}, inherited, downconverted, local);
     }
 
     format(name: string, value: string): void {

@@ -216,4 +216,28 @@ describe('quill-image-actions', () => {
       });
     });
   });
+
+  context('given CSS overlap', () => {
+    beforeEach(() => {
+      const html = `
+        <p>
+          <img src="256x256.png" width="64" height="128" style="float: left;"/>Albert says hi!
+          <br/>
+        </p>
+      `;
+      cy.window().then((win) => {
+        win.quill.root.innerHTML = html;
+      });
+    });
+
+    // TODO: make Firefox work!
+    if (!window.navigator.userAgent.includes('Firefox')) {
+      it('resizes properly', () => {
+        cy.get(IMG).eq(0).should('have.attr', 'width', '64');
+        cy.get(IMG).eq(0).click();
+        cy.get(OVL).drag('bottomRight', -32, -32);
+        cy.get(IMG).eq(0).should('have.attr', 'width', '32');
+      });
+    }
+  });
 });
