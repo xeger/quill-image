@@ -51,4 +51,29 @@ describe('quill-image-formats', () => {
     it('applies float', () =>
       cy.get('#editor img').should('have.css', 'float', 'left'));
   });
+
+  context('down-conversion from CSS', () => {
+    beforeEach(() => {
+      const html = `
+        <p>
+          <img src="256x256.png" style="float: left; height: 128px; width: 64px;"/>Albert says hi!
+          <br/>
+        </p>
+      `;
+      cy.get('.ql-editor[contenteditable=true]').then(($div) =>
+        $div.html(html)
+      );
+    });
+
+    it('handles width', () => {
+      cy.quillGetContents().then((ops) =>
+        expect(ops?.[1]?.attributes?.width).to.equal('64')
+      );
+    });
+    it('handles height', () => {
+      cy.quillGetContents().then((ops) =>
+        expect(ops?.[1]?.attributes?.height).to.equal('128')
+      );
+    });
+  });
 });
