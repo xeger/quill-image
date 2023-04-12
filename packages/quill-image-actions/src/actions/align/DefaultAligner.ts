@@ -103,6 +103,7 @@ export default class DefaultAligner implements Aligner {
     const [
       {
         attributes,
+        // @ts-expect-error 2339 ineffectual typing in quill
         insert: { image },
       },
     ] = contents.ops;

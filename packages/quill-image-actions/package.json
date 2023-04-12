@@ -25,7 +25,7 @@
     "@rollup/plugin-babel": "^5.2.0",
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
-    "@types/quill": "^1.3.6",
+    "@types/quill": "^2.0",
     "rollup": "^2.26.6",
     "typescript": "^3.7.5"
   },
@@ -34,7 +34,7 @@
     "deepmerge": "^4.2"
   },
   "peerDependencies": {
-    "quill": "^1.3.6"
+    "quill": "2.0.0-dev.4"
   },
   "description": "Allows user manipulation of width, height and float for images and videos embedded in Quill deltas.",
   "directories": {
