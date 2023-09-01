@@ -28,6 +28,12 @@ See the [demo page](assets/demo.html) or the [code sandbox](https://8fn0sp.csb.a
 
 Whenever you `new Quill`, make sure to include the formats _and the modules_ in its configuration; otherwise things will not work right.
 
+### With Tailwind CSS
+
+**Important:** It seems that there is a conflict between Quill and Tailwind CSS, which applies `display: block` to img tag which, prevents the `float` styles in `quill-image-formats` from affecting the image positioning.
+
+If your project uses both Tailwind and Quill, you need to add extra CSS rules so that `img` inside the Quill editor are positioned as `inline` or `inline-block`; otherwise, the image alignment features of `quill-image-actions` will not work.
+
 ### With a React Project
 
 Add the `quill-image` packages to your project's dependencies.
