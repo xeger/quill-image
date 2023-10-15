@@ -33,8 +33,7 @@ export default class ImageActions {
       Object.assign(this.overlay.style, this.options.overlay.style);
     }
 
-    // disable native image resizing on firefox
-    document.execCommand('enableObjectResizing', false, 'false');
+    // todo: still necessary? may be a relic of Firefox support
     this.withParentNode((pn) => {
       pn.style.position = pn.style.position || 'relative';
     });
